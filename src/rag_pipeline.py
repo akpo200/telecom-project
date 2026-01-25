@@ -4,8 +4,8 @@ Orchestre l'ensemble du processus : recherche + génération
 """
 
 from typing import List, Dict
-from langchain.chains import RetrievalQA
-from langchain.prompts import PromptTemplate
+from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain_core.prompts import PromptTemplate
 from src.vectorstore import load_vectorstore
 from src.llm import get_llm, create_rag_prompt
 from src.config import TOP_K_RETRIEVAL
