@@ -1,0 +1,26 @@
+# Framework RAG et LLM
+langchain>=0.1.0
+langchain-community>=0.1.0
+langchain-groq>=0.0.1
+langchain-mistralai>=0.0.1
+
+# Modèle d'embeddings
+sentence-transformers>=2.2.0
+
+# Base vectorielle
+faiss-cpu>=1.7.0
+
+# Chargement de documents
+pypdf>=3.0.0
+python-docx>=1.0.0
+docx2txt>=0.8
+
+# Interface utilisateur
+streamlit>=1.29.0
+
+# Utilitaires
+python-dotenv>=1.0.0
+numpy>=1.24.0
+ollama>=0.1.0
+tiktoken>=0.5.0
+pydantic>=2.0.0
