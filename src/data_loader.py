@@ -5,7 +5,7 @@ Gère l'ingestion de PDF, DOCX, TXT et leur découpage en chunks
 
 from pathlib import Path
 from typing import List
-from langchain.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from src.config import CHUNK_SIZE, CHUNK_OVERLAP, DATA_DIR

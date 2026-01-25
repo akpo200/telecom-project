@@ -5,7 +5,7 @@ Gère l'indexation et la recherche de similarité
 
 from pathlib import Path
 from typing import List
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
 from src.embeddings import get_embeddings
 from src.config import VECTORSTORE_DIR
