@@ -4,9 +4,23 @@ Gère l'interaction avec Ollama (Mistral), Groq ou Mistral AI
 """
 
 import os
-from langchain_community.llms import Ollama
-from langchain_groq import ChatGroq
-from langchain_mistralai import ChatMistralAI
+
+# Imports conditionnels pour éviter les erreurs de dépendances
+try:
+    from langchain_community.llms import Ollama
+except ImportError:
+    Ollama = None
+
+try:
+    from langchain_groq import ChatGroq
+except ImportError:
+    ChatGroq = None
+
+try:
+    from langchain_mistralai import ChatMistralAI
+except ImportError:
+    ChatMistralAI = None
+
 from src.config import OLLAMA_BASE_URL, OLLAMA_MODEL, MISTRAL_API_KEY
 
 
@@ -38,18 +52,18 @@ class LLMManager:
         """
         Initialise le fournisseur LLM approprié
         """
-        # 1. Vérifier si Groq est disponible (Priorité pour le Cloud car très rapide et gratuit)
+        # 1. Vérifier si Groq est disponible
         groq_api_key = os.getenv("GROQ_API_KEY")
-        if groq_api_key:
+        if groq_api_key and ChatGroq:
             print("🚀 Utilisation de Groq Cloud API")
             return ChatGroq(
                 api_key=groq_api_key,
-                model_name="mixtral-8x7b-32768",
+                model_name="llama-3.1-8b-instant",
                 temperature=self.temperature
             )
 
         # 2. Vérifier si Mistral AI API est disponible
-        if MISTRAL_API_KEY:
+        if MISTRAL_API_KEY and ChatMistralAI:
             print("🚀 Utilisation de Mistral AI API")
             return ChatMistralAI(
                 api_key=MISTRAL_API_KEY,
@@ -58,17 +72,20 @@ class LLMManager:
             )
 
         # 3. Par défaut : Ollama (local)
-        print(f"🤖 Utilisation d'Ollama local : {self.model_name}")
-        try:
-            return Ollama(
-                model=self.model_name,
-                base_url=self.base_url,
-                temperature=self.temperature
-            )
-        except Exception as e:
-            print(f"⚠️ Erreur Ollama : {e}. Assurez-vous qu'Ollama est lancé.")
-            # Retourner un mock ou lever une erreur explicite
-            raise ConnectionError("Impossible de se connecter à un fournisseur LLM (Ollama, Groq ou Mistral).")
+        if Ollama:
+            print(f"🤖 Utilisation d'Ollama local : {self.model_name}")
+            try:
+                return Ollama(
+                    model=self.model_name,
+                    base_url=self.base_url,
+                    temperature=self.temperature
+                )
+            except Exception as e:
+                print(f"⚠️ Erreur Ollama : {e}")
+        
+        # Si rien ne marche
+        print("❌ Aucun moteur LLM disponible. Vérifiez les installations.")
+        return None
 
     def generate(self, prompt: str) -> str:
         """

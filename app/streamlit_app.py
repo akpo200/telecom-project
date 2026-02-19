@@ -1,12 +1,13 @@
 """
-Interface Streamlit pour le système RAG Télécom
-Application web pour interroger la base de connaissances
+YAS - Assistant Client Intelligent (RAG)
+Interface Premium pour le Service Client Yas Télécom
 """
 
 import streamlit as st
 import sys
 import os
 from pathlib import Path
+from PIL import Image
 
 # Ajouter le dossier parent au path pour importer les modules src
 sys.path.append(str(Path(__file__).parent.parent))
@@ -14,252 +15,246 @@ sys.path.append(str(Path(__file__).parent.parent))
 from src.rag_pipeline import RAGPipeline
 from src.config import COLORS, VECTORSTORE_DIR
 
-# Configuration de la page
+# Initialisation de la page avec un style sombre/clair automatique
 st.set_page_config(
-    page_title="YAS - Assistant Intelligent RAG",
-    page_icon="📡",
+    page_title="YAS - Service Client IA",
+    page_icon="💜",
     layout="wide",
-    initial_sidebar_state="expanded"
 )
 
-# CSS personnalisé avec charte YAS et animations premium
-st.markdown(f"""
+# --- DESIGN SYSTEM ---
+def apply_premium_style():
+    st.markdown(f"""
     <style>
-    /* Gradient background for sidebar */
-    [data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {COLORS['primary']} 0%, #4B1D6F 100%);
-        color: white;
-    }}
-    [data-testid="stSidebar"] .stMarkdown {{
-        color: white;
-    }}
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
     
-    .main {{
-        background-color: {COLORS['background']};
+    html, body, [class*="css"] {{
         font-family: 'Inter', sans-serif;
+        background-color: #F8F9FA;
     }}
     
-    /* Premium Button Style */
-    .stButton>button {{
-        background: linear-gradient(90deg, {COLORS['primary']} 0%, #8E44AD 100%);
-        color: white;
-        border-radius: 12px;
-        padding: 12px 24px;
-        font-weight: bold;
-        border: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(107, 45, 143, 0.3);
-    }}
-    .stButton>button:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(107, 45, 143, 0.5);
-        background: {COLORS['secondary']};
+    /* Sidebar styling */
+    section[data-testid="stSidebar"] {{
+        background-color: {COLORS['primary']};
         color: white;
     }}
     
-    /* Chat Bubble Styles */
-    .source-box {{
-        background-color: white;
-        padding: 20px;
-        border-radius: 15px;
-        border-left: 5px solid {COLORS['secondary']};
-        margin: 15px 0;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] h3 {{
+        color: white;
     }}
     
-    .answer-box {{
-        background-color: white;
-        padding: 25px;
-        border-radius: 20px;
+    /* Main container */
+    .stApp {{
+        background: radial-gradient(circle at top right, #FFFFFF 0%, #F3E5F5 100%);
+    }}
+    
+    /* Chat messages */
+    .stChatMessage {{
+        background-color: transparent !important;
+        padding: 1rem 0;
+    }}
+    
+    /* User Message Bubble */
+    div[data-testid="chatAvatarUser"] + div {{
+        background-color: white !important;
+        border-radius: 15px 15px 0 15px !important;
         border: 1px solid #E0E0E0;
-        margin-bottom: 25px;
-        line-height: 1.6;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        padding: 1.2rem !important;
     }}
     
-    .header-container {{
-        text-align: center;
-        padding: 20px 0;
-        margin-bottom: 40px;
-        background: white;
+    /* Assistant Message Bubble */
+    div[data-testid="chatAvatarAssistant"] + div {{
+        background: linear-gradient(135deg, {COLORS['primary']} 0%, #4B1D6F 100%) !important;
+        color: white !important;
+        border-radius: 15px 15px 15px 0 !important;
+        box-shadow: 0 10px 20px rgba(107, 45, 143, 0.2);
+        padding: 1.2rem !important;
+    }}
+    
+    div[data-testid="chatAvatarAssistant"] + div p {{
+        color: white !important;
+    }}
+    
+    /* Input Box */
+    .stChatInput {{
+        border-radius: 25px;
+        box-shadow: 0 -10px 20px rgba(0,0,0,0.03);
+    }}
+    
+    /* Status indicators */
+    .status-badge {{
+        padding: 6px 12px;
         border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }}
-    
-    .header-title {{
-        color: {COLORS['primary']};
-        font-size: 2.8em;
-        font-weight: 800;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-right: 5px;
         margin-bottom: 5px;
     }}
+    .status-online {{ background-color: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; }}
+    .status-warning {{ background-color: #FFF3CD; color: #856404; border: 1px solid #FFEEBA; }}
     
-    .header-subtitle {{
-        color: #7F8C8D;
-        font-size: 1.2em;
-        letter-spacing: 1px;
+    /* Title animations */
+    .hero-title {{
+        background: linear-gradient(90deg, {COLORS['primary']}, {COLORS['secondary']});
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
     }}
     
-    /* Stats cards */
-    .stat-card {{
-        background: rgba(255,255,255,0.1);
-        padding: 15px;
+    .hero-subtitle {{
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }}
+    
+    /* Custom button styles */
+    .stButton>button {{
+        border-radius: 12px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }}
+    
+    .faq-btn {{
+        background: white;
+        border: 1px solid #E0E0E0;
+        color: {COLORS['primary']};
+        padding: 10px 15px;
         border-radius: 10px;
-        margin-bottom: 10px;
-        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        margin: 5px 0;
+        display: block;
+        width: 100%;
+        text-align: left;
+        font-size: 0.9rem;
+    }}
+    .faq-btn:hover {{
+        border-color: {COLORS['primary']};
+        background: #F3E5F5;
     }}
     </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
+# --- LOGIC ---
+@st.cache_resource
+def get_pipeline():
+    try:
+        return RAGPipeline()
+    except Exception as e:
+        st.error(f"Erreur d'initialisation du pipeline: {e}")
+        return None
 
-def initialize_pipeline():
-    """
-    Initialise le pipeline RAG
-    """
-    if 'pipeline' not in st.session_state:
-        with st.spinner("🔄 Initialisation de l'intelligence YAS..."):
-            try:
-                st.session_state.pipeline = RAGPipeline()
-                st.session_state.pipeline_ready = True
-            except Exception as e:
-                st.error(f"❌ Erreur d'initialisation : {e}")
-                st.session_state.pipeline_ready = False
+def initialize_session_state():
+    if "messages" not in st.session_state:
+        st.session_state.messages = [{
+            "role": "assistant",
+            "content": "Bonjour ! Je suis l'assistant virtuel YAS. Je suis là pour vous accompagner et répondre à toutes vos questions sur nos offres et services. Comment puis-je vous aider aujourd'hui ? 😊"
+        }]
 
-
+# --- UI COMPONENTS ---
 def display_header():
-    """
-    En-tête premium avec Logo
-    """
-    col1, col2, col3 = st.columns([1, 4, 1])
-    with col2:
+    col1, col2 = st.columns([1, 6])
+    with col1:
         logo_path = Path(__file__).parent / "assets" / "logo.png"
         if logo_path.exists():
-            st.image(str(logo_path), width=180)
-        
-        st.markdown(f"""
-            <div class="header-container">
-                <div class="header-title">Assistant Intelligent RAG</div>
-                <div class="header-subtitle">Propulsé par YAS • Base de Connaissances Interne</div>
-            </div>
-        """, unsafe_allow_html=True)
-
+            st.image(str(logo_path), width=100)
+        else:
+            st.markdown(f"## 📱 **YAS**")
+    
+    with col2:
+        st.markdown('<h1 class="hero-title">Service Client Intelligent</h1>', unsafe_allow_html=True)
+        st.markdown('<p class="hero-subtitle">Assistance 24/7 propulsée par l\'IA generative pour plus de rapidité et de précision.</p>', unsafe_allow_html=True)
 
 def display_sidebar():
-    """
-    Barre latérale stylisée
-    """
     with st.sidebar:
+        st.markdown("### 🛠️ Configuration")
         st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### ⚙️ Centre de Contrôle")
         
-        # Paramètres de recherche
-        top_k = st.slider(
-            "Sensibilité de recherche (Top-K)",
-            min_value=1,
-            max_value=10,
-            value=5,
-            help="Nombre de fragments de documents analysés pour chaque réponse"
-        )
-        
-        st.markdown("---")
-        st.markdown("### 📊 État du Système")
-        
-        # Status cards
+        # Statut du système
+        st.markdown("#### État du Service")
         if VECTORSTORE_DIR.exists():
-            st.markdown('<div class="stat-card">🟢 Base Vectorielle Active</div>', unsafe_allow_html=True)
+            st.markdown('<div class="status-badge status-online">🟢 Base de connaissances active</div>', unsafe_allow_html=True)
         else:
-            st.markdown('<div class="stat-card">🔴 Base Non Trouvée</div>', unsafe_allow_html=True)
-            
-        if st.session_state.get('pipeline_ready', False):
-            st.markdown('<div class="stat-card">🟢 IA Connectée (Cloud/Local)</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="stat-card">🟠 IA En Attente...</div>', unsafe_allow_html=True)
-
-        st.markdown("---")
-        st.markdown("### 💡 Suggestions")
+            st.markdown('<div class="status-badge status-warning">🟡 Indexation requise</div>', unsafe_allow_html=True)
         
-        example_questions = [
-            "Quels sont les Pass Liberté ?",
-            "Comment configurer l'APN manuellement ?",
-            "Quelles sont les conditions de résliation ?",
-            "Prix du forfait Business Premium ?"
+        st.markdown('<div class="status-badge status-online">🟢 IA Connectée</div>', unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        st.markdown("### 💡 Aide rapide")
+        st.markdown("Cliquez sur une question fréquente :")
+        
+        faq_questions = [
+            "Quels sont les différents Pass Liberté ?",
+            "Comment configurer mon accès Internet (APN) ?",
+            "Quelles sont les offres pour les entreprises ?",
+            "Qu'est-ce que YAS Money ?",
+            "Comment retrouver mon code PUK ?"
         ]
         
-        for question in example_questions:
-            if st.button(question, key=f"ex_{question}", use_container_width=True):
-                st.session_state.current_question = question
+        for q in faq_questions:
+            if st.button(q, key=q, help="Poser cette question"):
+                st.session_state.temp_prompt = q
+                st.rerun()
+
+        st.markdown("---")
+        if st.button("🗑️ Réinitialiser le chat", use_container_width=True, type="secondary"):
+            st.session_state.messages = []
+            initialize_session_state()
+            st.rerun()
+
+def display_chat():
+    pipeline = get_pipeline()
+    
+    # Check for temporary prompt from sidebar
+    if "temp_prompt" in st.session_state:
+        prompt = st.session_state.pop("temp_prompt")
+        st.session_state.messages.append({"role": "user", "content": prompt})
         
-        st.markdown("<br><br>", unsafe_allow_html=True)
-        st.info("💡 **Astuce** : Soyez précis dans vos questions pour obtenir de meilleures citations.")
+        path_to_ans = st.chat_message("assistant")
+        with path_to_ans:
+            with st.spinner("Je recherche les meilleures informations pour vous..."):
+                result = pipeline.query(prompt)
+                full_response = pipeline.format_response(result)
+                st.markdown(full_response)
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
+    # Display chat history
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
 
-def display_main_interface():
-    """
-    Interface de chat principale
-    """
-    # Zone de saisie
-    question = st.text_input(
-        "Comment puis-je vous aider aujourd'hui ?",
-        placeholder="Ex: Quelle est la procédure pour résilier un contrat Business ?",
-        key="question_input",
-        value=st.session_state.get('current_question', '')
-    )
-    
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col2:
-        search_button = st.button("🚀 Interroger l'IA", use_container_width=True)
-    
-    if (search_button or st.session_state.get('current_question')) and question:
-        with st.spinner("🔍 Analyse de la documentation en cours..."):
-            try:
-                # Interrogation du pipeline
-                result = st.session_state.pipeline.query(question)
-                
-                # Réponse stylisée
-                st.markdown(f"""
-                    <div class="answer-box">
-                        <h3 style='color: {COLORS['primary']};'>💬 Réponse de l'Assistant</h3>
-                        {result['answer']}
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                # Sources avec expanders premium
-                if result['sources']:
-                    st.markdown("### 📚 Sources Documentaires")
-                    for i, doc in enumerate(result['sources'], 1):
-                        source_name = Path(doc.metadata.get('source', 'Document')).name
-                        page = doc.metadata.get('page', 'N/A')
-                        
-                        with st.expander(f"📄 [{i}] {source_name} • Page {page}"):
-                            st.markdown(f"**Extrait pertinent :**")
-                            st.info(doc.page_content)
-                            st.caption(f"Source : {doc.metadata.get('source')}")
-                
-                # Feedback discret
-                cols = st.columns([5, 1, 1])
-                with cols[1]: st.button("👍", key="up")
-                with cols[2]: st.button("👎", key="down")
-                
-            except Exception as e:
-                st.error(f"⚠️ Une erreur est survenue : {e}")
-    
-    # Reset question
-    if 'current_question' in st.session_state:
-        st.session_state.current_question = None
+    # Input zone
+    if user_prompt := st.chat_input("Dites-moi comment je peux vous aider..."):
+        st.session_state.messages.append({"role": "user", "content": user_prompt})
+        with st.chat_message("user"):
+            st.markdown(user_prompt)
 
+        with st.chat_message("assistant"):
+            with st.spinner("Réflexion en cours..."):
+                if pipeline:
+                    result = pipeline.query(user_prompt, history=st.session_state.messages[:-1])
+                    response = pipeline.format_response(result)
+                    st.markdown(response)
+                    st.session_state.messages.append({"role": "assistant", "content": response})
+                else:
+                    st.error("Le système d'IA n'est pas disponible. Veuillez vérifier les fichiers de configuration.")
 
+# --- MAIN ---
 def main():
-    """
-    Fonction principale
-    """
+    apply_premium_style()
+    initialize_session_state()
     display_header()
-    initialize_pipeline()
     display_sidebar()
     
-    if not st.session_state.get('pipeline_ready', False):
-        st.warning("⚠️ Le système d'intelligence n'est pas encore prêt. Vérifiez les logs.")
-        return
-        
-    display_main_interface()
-
+    # Layout adjustment for centering the chat
+    left, middle, right = st.columns([1, 10, 1])
+    with middle:
+        display_chat()
 
 if __name__ == "__main__":
     main()

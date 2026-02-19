@@ -2,6 +2,7 @@ langchain
 langchain-community
 langchain-core
 langchain-groq
+langchain-huggingface
 sentence-transformers
 faiss-cpu
 pypdf
@@ -11,3 +12,4 @@ streamlit
 python-dotenv
 tiktoken
 pydantic
+requests

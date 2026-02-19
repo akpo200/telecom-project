@@ -1,0 +1,12 @@
+﻿Ô£à Configuration charg├®e depuis C:\Users\dell\Desktop\projets cycy ink\telecom_project
+­ƒôü Dossier de donn├®es : C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw
+­ƒùä´©Å Dossier vectorstore : C:\Users\dell\Desktop\projets cycy ink\telecom_project\vectorstore\faiss_index
+­ƒº¬ Test du pipeline RAG en local...
+­ƒÜÇ Initialisation du pipeline RAG (top-k=5)
+­ƒôÜ Chargement de la base vectorielle...
+­ƒöä Chargement du mod├¿le d'embeddings : sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+Ô£à Mod├¿le d'embeddings charg├® avec succ├¿s
+­ƒùä´©Å VectorStoreManager initialis├® (path=C:\Users\dell\Desktop\projets cycy ink\telecom_project\vectorstore\faiss_index)
+­ƒöä Chargement de la base vectorielle depuis C:\Users\dell\Desktop\projets cycy ink\telecom_project\vectorstore\faiss_index
+
+ÔØî Erreur pendant le test : '__fields_set__'

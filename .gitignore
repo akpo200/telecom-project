@@ -19,8 +19,9 @@ __pycache__/
 # Notebooks
 .ipynb_checkpoints/
 
-# Données sensibles
-data/raw/
+# Données (On inclut uniquement la base de connaissances Yas)
+data/raw/*
+!data/raw/yas_knowledge_base.md
 
 # IDE
 .vscode/

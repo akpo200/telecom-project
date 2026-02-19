@@ -4,7 +4,7 @@ Orchestre l'ensemble du processus : recherche + génération
 """
 
 from typing import List, Dict
-from langchain.chains import RetrievalQA
+# from langchain.chains import RetrievalQA (unused)
 from langchain_core.prompts import PromptTemplate
 from src.vectorstore import load_vectorstore
 from src.llm import get_llm, create_rag_prompt
@@ -36,59 +36,49 @@ class RAGPipeline:
         print(f"🤖 Chargement du LLM...")
         self.llm = get_llm()
         
-        # Créer le template de prompt
-        self.prompt_template = self._create_prompt_template()
-        
-        # Créer la chaîne RetrievalQA
-        self.qa_chain = RetrievalQA.from_chain_type(
-            llm=self.llm,
-            chain_type="stuff",  # "stuff" = tout le contexte dans un seul prompt
-            retriever=self.retriever,
-            return_source_documents=True,
-            chain_type_kwargs={"prompt": self.prompt_template}
-        )
-        
         print(f"✅ Pipeline RAG initialisé avec succès")
     
-    def _create_prompt_template(self) -> PromptTemplate:
+    def _format_prompt(self, context: str, question: str, history: List[Dict] = None) -> str:
         """
-        Crée le template de prompt pour le RAG
+        Crée le prompt pour le RAG avec historique
+        """
+        history_text = ""
+        if history:
+            history_text = "\n[HISTORIQUE DE CONVERSATION]\n"
+            for msg in history[-5:]:  # Garder les 5 derniers échanges
+                role = "Utilisateur" if msg["role"] == "user" else "Assistant"
+                history_text += f"{role}: {msg['content']}\n"
         
-        Returns:
-            PromptTemplate LangChain
-        """
-        template = """[INSTRUCTION]
-Tu es un assistant intelligent pour une entreprise de télécommunication au Sénégal.
-Ta mission est de répondre aux questions des employés en te basant UNIQUEMENT sur les documents internes fournis ci-dessous.
+        prompt = f"""[INSTRUCTION]
+Vous êtes l'Assistant Virtuel de YAS (Télécom Sénégal), expert, chaleureux et professionnel.
+Votre rôle est d'agir comme un véritable agent du service client.
 
-RÈGLES IMPORTANTES :
-- Réponds en français de manière claire et professionnelle
-- Base-toi UNIQUEMENT sur le contexte fourni
-- Si l'information n'est pas dans le contexte, dis "Je ne trouve pas cette information dans les documents disponibles"
-- Cite toujours la source de l'information (nom du document)
-- Sois précis et factuel
-- Structure ta réponse avec des listes à puces ou numérotées si approprié
+RÈGLES ABSOLUES :
+1. Basez-vous UNIQUEMENT sur les [CONTEXTE] fournis ci-dessous. N'inventez RIEN.
+2. Si la réponse n'est pas dans le contexte, dites poliment que vous ne trouvez pas l'information et proposez de contacter le service client au 200.
+3. Soyez courtois, empathique et direct (style "Service Client Premium").
+4. Utilisez le vouvoiement.
+5. Formatez la réponse avec des puces ou du gras pour la lisibilité si nécessaire.
+
+{history_text}
 
 [CONTEXTE]
 {context}
 
-[QUESTION]
+[QUESTION CLIENT]
 {question}
 
-[RÉPONSE]
+[RÉPONSE SERVICE CLIENT]
 """
-        
-        return PromptTemplate(
-            template=template,
-            input_variables=["context", "question"]
-        )
+        return prompt
     
-    def query(self, question: str) -> Dict:
+    def query(self, question: str, history: List[Dict] = None) -> Dict:
         """
-        Pose une question au système RAG
+        Pose une question au système RAG avec historique
         
         Args:
             question: Question de l'utilisateur
+            history: Liste de dictionnaires {"role": "user"/"assistant", "content": "..."}
             
         Returns:
             Dictionnaire contenant la réponse et les sources
@@ -96,12 +86,23 @@ RÈGLES IMPORTANTES :
         print(f"\n❓ Question : {question}")
         
         try:
-            # Exécuter la chaîne RAG
-            result = self.qa_chain({"query": question})
+            # 1. Recherche des documents pertinents
+            source_documents = self.retriever.get_relevant_documents(question)
             
-            # Extraire la réponse et les sources
-            answer = result["result"]
-            source_documents = result["source_documents"]
+            # 2. Préparation du contexte
+            context = "\n\n".join([doc.page_content for doc in source_documents])
+            
+            # 3. Création du prompt
+            prompt = self._format_prompt(context, question, history)
+            
+            # 4. Génération de la réponse
+            if self.llm is None:
+                answer = "Le service d'IA (LLM) est actuellement indisponible. Veuillez vérifier la connexion ou les clés API."
+            elif hasattr(self.llm, "invoke"):
+                response = self.llm.invoke(prompt)
+                answer = response.content if hasattr(response, "content") else str(response)
+            else:
+                answer = self.llm(prompt)
             
             print(f"✅ Réponse générée avec {len(source_documents)} sources")
             
@@ -119,17 +120,11 @@ RÈGLES IMPORTANTES :
                 "sources": []
             }
     
-    def query_with_details(self, question: str) -> Dict:
+    def query_with_details(self, question: str, history: List[Dict] = None) -> Dict:
         """
         Pose une question et retourne des détails enrichis
-        
-        Args:
-            question: Question de l'utilisateur
-            
-        Returns:
-            Dictionnaire avec réponse, sources et métadonnées détaillées
         """
-        result = self.query(question)
+        result = self.query(question, history)
         
         # Enrichir avec les détails des sources
         sources_details = []
@@ -146,23 +141,21 @@ RÈGLES IMPORTANTES :
     def format_response(self, result: Dict) -> str:
         """
         Formate la réponse pour affichage
-        
-        Args:
-            result: Résultat du query()
-            
-        Returns:
-            Réponse formatée en texte
         """
-        formatted = f"**Question :** {result['question']}\n\n"
-        formatted += f"**Réponse :**\n{result['answer']}\n\n"
+        formatted = f"{result['answer']}\n\n"
         
         if result['sources']:
-            formatted += f"**Sources ({len(result['sources'])}) :**\n"
-            for i, doc in enumerate(result['sources'], 1):
-                source_name = doc.metadata.get('source', 'Document inconnu')
-                page = doc.metadata.get('page', 'N/A')
-                formatted += f"{i}. {source_name} (Page {page})\n"
-                formatted += f"   Extrait : {doc.page_content[:150]}...\n\n"
+            formatted += f"**Sources :**\n"
+            seen_sources = set()
+            for doc in result['sources']:
+                source_name = doc.metadata.get('source', 'Document')
+                # Nettoyer le chemin pour n'avoir que le nom du fichier
+                from pathlib import Path
+                source_name = Path(source_name).name
+                
+                if source_name not in seen_sources:
+                    formatted += f"- {source_name}\n"
+                    seen_sources.add(source_name)
         
         return formatted
 

@@ -6,8 +6,8 @@ Gère l'ingestion de PDF, DOCX, TXT et leur découpage en chunks
 from pathlib import Path
 from typing import List
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
 from src.config import CHUNK_SIZE, CHUNK_OVERLAP, DATA_DIR
 
 
@@ -57,6 +57,8 @@ class DocumentLoader:
                 loader = Docx2txtLoader(str(file_path))
             elif file_extension == ".txt":
                 loader = TextLoader(str(file_path), encoding="utf-8")
+            elif file_extension == ".md":
+                loader = TextLoader(str(file_path), encoding="utf-8")
             else:
                 print(f"⚠️ Extension non supportée : {file_extension}")
                 return []
@@ -81,7 +83,8 @@ class DocumentLoader:
             Liste de tous les documents chargés
         """
         all_documents = []
-        supported_extensions = [".pdf", ".docx", ".txt"]
+        supported_documents = []
+        supported_extensions = [".pdf", ".docx", ".txt", ".md"]
         
         # Parcourir récursivement le dossier
         for file_path in directory.rglob("*"):

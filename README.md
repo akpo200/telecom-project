@@ -1,5 +1,5 @@
 # Système RAG pour Entreprise de Télécommunication
-## Projet d'Intelligence Artificielle Appliquée
+## Framework et outils utilisés
 
 ### Framework RAG et LLM
 langchain>=0.1.0

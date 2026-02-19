@@ -32,13 +32,10 @@ telecom_project/
         └── conditions_generales/
 ```
 
-### 🎯 Fonctionnalités implémentées
+### Fonctionnalités implémentées
 
 #### 1. **Documentation académique complète** ✅
-- ✅ PARTIE 1 : Introduction et cadrage (contexte, objectifs, choix technologiques, architecture)
-- ✅ PARTIE 2 : Mise en œuvre technique (environnement, Ollama, base de connaissances, pipeline RAG, hébergement, interface, limites)
-- ✅ Charte graphique YAS intégrée
-- ✅ Style académique et professionnel
+- Charte graphique YAS intégrée
 
 #### 2. **Pipeline RAG fonctionnel** ✅
 - ✅ Chargement de documents (PDF, DOCX, TXT)
@@ -63,7 +60,7 @@ telecom_project/
 - ✅ Structure de dossiers organisée
 - ✅ Guides d'installation complets
 
-### 🚀 Pour démarrer le projet
+### Pour démarrer le projet
 
 #### Étape 1 : Installer Ollama
 ```powershell

@@ -3,7 +3,10 @@ Module de génération des embeddings
 Gère la transformation du texte en vecteurs sémantiques
 """
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
+try:
+    from langchain_huggingface import HuggingFaceEmbeddings
+except ImportError:
+    from langchain_community.embeddings import HuggingFaceEmbeddings
 from src.config import EMBEDDING_MODEL
 
 

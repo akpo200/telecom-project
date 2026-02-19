@@ -1,8 +1,5 @@
 # 🎯 GUIDE DE DÉMARRAGE RAPIDE
 
-## ✅ Fichiers créés
-
-Tous les fichiers du système RAG ont été créés avec succès :
 
 ### 📦 Code source (`src/`)
 - ✅ `config.py` - Configuration centralisée

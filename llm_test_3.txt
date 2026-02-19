@@ -1,0 +1,6 @@
+﻿Ô£à Configuration charg├®e depuis C:\Users\dell\Desktop\projets cycy ink\telecom_project
+­ƒôü Dossier de donn├®es : C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw
+­ƒùä´©Å Dossier vectorstore : C:\Users\dell\Desktop\projets cycy ink\telecom_project\vectorstore\faiss_index
+­ƒº¬ Test du module LLM
+­ƒÜÇ Utilisation de Groq Cloud API
+R├®ponse : Bonjour, je suis un mod├¿le de langage artificiel capable de comprendre et de r├®pondre en fran├ºais, je suis l├á pour vous aider avec vos questions et vos besoins.
