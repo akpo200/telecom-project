@@ -145,24 +145,9 @@ HISTORIQUE RÉCENT :
     
     def format_response(self, result: Dict) -> str:
         """
-        Formate la réponse pour affichage
+        Formate la réponse pour affichage (Sans les sources pour la visibilité)
         """
-        formatted = f"{result['answer']}\n\n"
-        
-        if result['sources']:
-            formatted += f"**Sources :**\n"
-            seen_sources = set()
-            for doc in result['sources']:
-                source_name = doc.metadata.get('source', 'Document')
-                # Nettoyer le chemin pour n'avoir que le nom du fichier
-                from pathlib import Path
-                source_name = Path(source_name).name
-                
-                if source_name not in seen_sources:
-                    formatted += f"- {source_name}\n"
-                    seen_sources.add(source_name)
-        
-        return formatted
+        return result['answer']
 
 
 # Fonction utilitaire pour utilisation rapide
