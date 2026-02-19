@@ -1,0 +1,4 @@
+﻿C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw\yas_knowledge_base.md
+C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw\conditions_generales\conditions_resiliation.txt
+C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw\offres_commerciales\catalogue_offres_2024.txt
+C:\Users\dell\Desktop\projets cycy ink\telecom_project\data\raw\procedures_techniques\configuration_apn.txt

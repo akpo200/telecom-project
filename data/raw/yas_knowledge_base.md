@@ -1,81 +1,63 @@
-# MÉGA BASE DE CONNAISSANCES PANAFRICAINE - YAS TÉLÉCOM
+# BASE DE CONNAISSANCES OFFICIELLE - YAS SÉNÉGAL
 
-## 1. VISION ET PRÉSENCE PANAFRICAINE
-YAS Télécom est la marque de référence d'Axian Telecom en Afrique. Elle incarne l'innovation, la simplicité et la connectivité ultra-rapide (4G+/5G).
-
-**Pays d'opération (Filiales YAS) :**
-*   **YAS Sénégal** (Anciennement Free Sénégal)
-*   **YAS Togo** (Anciennement Togocom)
-*   **YAS Madagascar** (Anciennement Telma Madagascar)
-*   **YAS Comores** (Anciennement Telma Comores)
-*   **YAS Tanzanie** (Anciennement Tigo Tanzania)
-
-**Slogan Global** : "La vie en mode connecté."
-**Maison Mère** : Groupe Axian (Présent également en Ouganda et RDC).
+## 1. À PROPOS DE YAS SÉNÉGAL
+YAS est l'opérateur mobile digital leader au Sénégal, filiale du groupe Axian.
+*   **Mission** : Offrir la meilleure expérience numérique au Sénégal.
+*   **Réseau** : Couverture nationale 4G+ et pionnier de la 5G à Dakar.
+*   **Slogan** : "YAS, La vie en mode connecté."
 
 ---
 
-## 2. FOCUS PAR PAYS
+## 2. OFFRES MOBILES (PRÉPAYÉ & BUSINESS)
 
-### 2.1 YAS SÉNÉGAL (Le Hub Digital)
-*   **Réseau** : Pionnier 5G à Dakar et couverture 4G+ nationale.
-*   **Offres Mobiles (Pass Liberté)** :
-    *   **Pass S (5 000 FCFA)** : 10 Go + 200 min, 30 jours.
-    *   **Pass M (10 000 FCFA)** : 30 Go + 500 min, 30 jours.
-    *   **Pass L (20 000 FCFA)** : 80 Go + Illimité National, 30 jours.
-*   **Yas Money (Mixx)** : Transfert d'argent avec frais réduits (0.8% à 1%). Code : `#144#`.
-*   **Internet Maison** : Fibre Optique jusqu'à 500 Mbps.
+### 2.1 Pass Liberté (Prépayé)
+Nos forfaits sans engagement, valables 30 jours avec 5G incluse :
+*   **Pass S (5 000 FCFA)** : 10 Go Data + 200 min Appels nationaux + 500 SMS.
+*   **Pass M (10 000 FCFA)** : 30 Go Data + 500 min Appels nationaux + SMS Illimités.
+*   **Pass L (20 000 FCFA)** : 80 Go Data + Appels Illimités nationaux + 100 min International (Zone 1).
 
-### 2.2 YAS TOGO (Le Leader de la 5G)
-*   **Réseau** : Premier opérateur à avoir lancé la 5G en Afrique de l'Ouest.
-*   **Services Spécifiques** :
-    *   **Forfaits T-Minutes** : Appels vers toutes les destinations.
-    *   **Moov-YAS Interopérabilité** : Transfert facile entre réseaux.
-    *   **Internet Très Haut Débit** : Leader sur la Fibre à Lomé et Kara.
-*   **Code USSD Client** : `*123#`.
+### 2.2 YAS Business (Postpayé)
+Solutions pour professionnels et entreprises :
+*   **Business Start (15 000 FCFA/mois)** : 40 Go Data + Appels illimités vers numéros YAS.
+*   **Business Premium (35 000 FCFA/mois)** : 150 Go Data + Appels illimités toutes destinations nationales + 5 Go Roaming.
+*   **Business VIP (75 000 FCFA/mois)** : Data illimitée + Appels illimités Monde entier (Zone 1 et 2).
 
-### 2.3 YAS MADAGASCAR (Performance & Vitesse)
-*   **Réseau** : Large couverture Fibre Optique et 4G+ sur toute l'île.
-*   **Offres "First"** : Forfaits premium avec data illimitée pour les réseaux sociaux.
-*   **Mobile Money (MVola par YAS)** : Service financier numéro 1 avec micro-crédit instantané.
+### 2.3 Options Data (Boosters)
+*   **Booster Jour (500 FCFA)** : 2 Go valables 24h.
+*   **Booster Week-end (2 000 FCFA)** : 15 Go (du samedi 00h au dimanche 23h59).
 
 ---
 
-## 3. SERVICES TRANSVERSAUX (Valables partout)
-
-### 3.1 Services Financiers (Mixx by YAS)
-Disponible sous différentes appellations locales, mais avec les mêmes standards :
-*   **Transfert National/International** : Envoi d'argent instantané.
-*   **Paiement Marchand** : Payez via QR Code chez les partenaires (Auchan, stations ELTON, etc.).
-*   **Paiement de Factures** : Électricité, Eau, TV (Canal+, Netflix).
-
-### 3.2 Solutions Entreprises (YAS Business)
-*   **Flottes Mobiles** : Appels gratuits entre collaborateurs.
-*   **Lignes Spécialisées (LS)** : Internet garanti pour les sièges sociaux.
-*   **Cloud & Hosting** : Hébergement de données localisé dans chaque pays pour la souveraineté numérique.
+## 3. SERVICES FINANCIERS (MIXX BY YAS)
+Service de Mobile Money pour envoyer, recevoir et payer au Sénégal.
+*   **Code USSD** : `#144#`
+*   **Retrait d'argent** : Frais entre 0.8% et 1% selon le montant.
+*   **Paiements acceptés** : Senelec (Woyofal), Sen'Eau, Auchan, Stations-service Elton.
 
 ---
 
-## 4. ASSISTANCE ET CODES UNIVERSELS (Standard YAS)
-*   **Service Client Universel** : 200 (numéro court gratuit).
-*   **Menu Services Généraux** : `#100#` (Sénégal), `*120#` (Madagascar), `*123#` (Togo).
-*   **Configuration Internet APN** : 
-    *   Nom : YAS Internet
-    *   APN : `yas.sn` (SN), `yas.tg` (TG), `yas.mg` (MG)
-    *   Type : `default,supl`
+## 4. ACHAT ET IDENTIFICATION SIM
+*   **Prix de la carte SIM** : 500 FCFA (inclut 500 FCFA de crédit).
+*   **Où acheter ?** : Agences YAS (Dakar, Thiès, St-Louis, etc.), Kiosques agréés ou en ligne sur `yas.sn`.
+*   **Identification (Artp)** : CNI sénégalaise ou Passeport valide obligatoire.
 
 ---
 
-## 5. FAQ PANAFRICAINE
+## 5. CONFIGURATION ET ASSISTANCE TECHNIQUE
 
-**Q : Puis-je utiliser mon Pass YAS Sénégal au Togo ?**
-R : Non, les forfaits sont nationaux. Cependant, l'option **Roaming YAS Afrique** permet d'utiliser votre SIM avec des tarifs préférentiels dans les pays du groupe.
+### 5.1 Configuration Internet (APN)
+*   **Nom** : YAS Internet
+*   **APN** : `yas.internet`
+*   **MCC** : 608 | **MNC** : 04
+*   **Méthode Auto** : Envoyer "INTERNET" au 2222.
 
-**Q : La 5G est-elle disponible partout ?**
-R : La 5G est opérationnelle au **Sénégal (Dakar)** et au **Togo (Lomé)**. Elle est en cours de déploiement à Antananarivo (Madagascar).
+### 5.2 Contacts Utiles
+*   **Service Client** : 200 (numéro court gratuit depuis YAS).
+*   **Support Technique** : 1212.
+*   **Depuis l'étranger** : +221 33 800 00 00.
 
-**Q : Combien coûte une SIM YAS ?**
-R : Le prix standard est d'environ **500 FCFA / 1000 Ar** incluant un crédit de bienvenue de même valeur.
+---
 
-**Q : Comment recharger mon compte depuis l'étranger ?**
-R : Via le site web `yas.africa` ou par les partenaires de recharge internationale (Ding, Recharge.com).
+## 6. CONDITIONS DE RÉSILIATION (ABONNÉS)
+*   **Préavis** : 30 jours à notifier en agence ou par courrier.
+*   **Frais anticipés** : 50% des mensualités restantes en cas de rupture avant la fin de l'engagement.
