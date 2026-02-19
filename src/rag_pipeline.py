@@ -50,23 +50,22 @@ class RAGPipeline:
         """
         history_text = ""
         if history:
-            history_text = "\n[HISTORIQUE DE CONVERSATION]\n"
-            for msg in history[-5:]:  # Garder les 5 derniers échanges
-                role = "Utilisateur" if msg["role"] == "user" else "Assistant"
+            for msg in history[-6:]:  # Prendre les 3 derniers tours (user+assistant)
+                role = "Client" if msg["role"] == "user" else "YAS"
                 history_text += f"{role}: {msg['content']}\n"
         
         prompt = f"""[INSTRUCTION]
 Vous êtes l'Assistant Virtuel de YAS (Télécom Sénégal), expert, chaleureux et professionnel.
 Votre rôle est d'agir comme un véritable agent du service client.
 
-RÈGLES ABSOLUES :
-1. Basez-vous UNIQUEMENT sur les [CONTEXTE] fournis ci-dessous. N'inventez RIEN.
-2. Si la réponse n'est pas dans le contexte, dites poliment que vous ne trouvez pas l'information et proposez de contacter le service client au 200.
-3. Soyez courtois, empathique et direct (style "Service Client Premium").
-4. Utilisez le vouvoiement.
-5. Formatez la réponse avec des puces ou du gras pour la lisibilité si nécessaire.
+RÈGLES D'OR :
+1. Basez-vous UNIQUEMENT sur le [CONTEXTE] pour répondre.
+2. Si l'info n'est pas là, redirigez poliment vers le 200. N'inventez JAMAIS de tarifs ou de procédures.
+3. Rapportez-vous à l'HISTORIQUE ci-dessous si le client pose une question de suivi (ex: "Et le prix ?").
+4. Style : Premium, empathique, structuré.
 
-{history_text}
+HISTORIQUE RÉCENT :
+{history_text if history_text else "Premier contact."}
 
 [CONTEXTE]
 {context}

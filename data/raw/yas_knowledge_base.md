@@ -144,3 +144,27 @@ R : Composez le +221 77 000 02 00 (coût d'un appel international vers le Séné
 
 **Q : Quelle est la validité d'une carte SIM sans utilisation ?**
 R : Une carte SIM est désactivée après 6 mois sans activité (appel, SMS ou rechargement).
+---
+
+## 9. COMMENT REJOINDRE YAS (Achat SIM)
+
+Pour devenir client YAS, vous devez acquérir une carte SIM (500 FCFA avec 500 FCFA de crédit inclus).
+
+### 9.1 Points de vente
+*   **Agences YAS** : Présentes à Dakar (Plateau, Almadies, Guédiawaye), Thiès, Saint-Louis et Ziguinchor.
+*   **Revendeurs Agréés** : Kiosques violets identifiables par le logo YAS.
+*   **Livraison à domicile** : Commandez sur `yas.sn` ou via l'app "YAS & Moi". Livraison en 2h à Dakar.
+
+### 9.2 Identification (Obligatoire)
+Conformément à la réglementation de l'ARTP, toute SIM doit être identifiée.
+*   **Sénégalais** : CNI (Carte Nationale d'Identité) en cours de validité.
+*   **Étrangers** : Passeport valide ou Carte de Résident.
+*   **Mineurs** : Présence d'un tuteur légal avec sa pièce d'identité.
+
+---
+
+## 10. PARTENAIRES YAS MONEY
+YAS Money est accepté chez :
+*   **Supermarchés** : Exclusive, Auchan, Carrefour.
+*   **Stations-service** : Elton, Vivo Energy.
+*   **Services Publics** : Senelec (Woyofal), Sen'Eau, Rapido.
