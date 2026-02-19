@@ -27,8 +27,13 @@ class RAGPipeline:
         
         print(f"🚀 Initialisation du pipeline RAG (top-k={top_k})")
         
-        # Charger la base vectorielle
+        # Charger la base vectorielle (avec auto-construction si nécessaire)
         print(f"📚 Chargement de la base vectorielle...")
+        if not VECTORSTORE_DIR.exists() or not list(VECTORSTORE_DIR.glob("*.faiss")):
+            print("⚠️ Base vectorielle manquante. Construction en cours...")
+            from src.build_vectorstore import build_vectorstore
+            build_vectorstore()
+            
         self.vectorstore_manager = load_vectorstore()
         self.retriever = self.vectorstore_manager.get_retriever(k=top_k)
         
