@@ -92,7 +92,7 @@ RÈGLES ABSOLUES :
         
         try:
             # 1. Recherche des documents pertinents
-            source_documents = self.retriever.get_relevant_documents(question)
+            source_documents = self.retriever.invoke(question)
             
             # 2. Préparation du contexte
             context = "\n\n".join([doc.page_content for doc in source_documents])

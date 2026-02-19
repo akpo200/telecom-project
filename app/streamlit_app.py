@@ -223,8 +223,8 @@ def display_chat():
                 st.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-    # Display chat history
-    for msg in st.session_state.messages:
+    # Display chat history in reverse order (newest at the top)
+    for msg in reversed(st.session_state.messages):
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
