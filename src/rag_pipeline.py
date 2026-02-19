@@ -8,7 +8,7 @@ from typing import List, Dict
 from langchain_core.prompts import PromptTemplate
 from src.vectorstore import load_vectorstore
 from src.llm import get_llm, create_rag_prompt
-from src.config import TOP_K_RETRIEVAL
+from src.config import TOP_K_RETRIEVAL, VECTORSTORE_DIR
 
 
 class RAGPipeline:
@@ -28,6 +28,7 @@ class RAGPipeline:
         print(f"🚀 Initialisation du pipeline RAG (top-k={top_k})")
         
         # Charger la base vectorielle (avec auto-construction si nécessaire)
+        from src.config import VECTORSTORE_DIR
         print(f"📚 Chargement de la base vectorielle...")
         if not VECTORSTORE_DIR.exists() or not list(VECTORSTORE_DIR.glob("*.faiss")):
             print("⚠️ Base vectorielle manquante. Construction en cours...")
